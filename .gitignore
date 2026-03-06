@@ -1,0 +1,111 @@
+# ===========================
+# Dependencies
+# ===========================
+node_modules/
+.pnp
+.pnp.js
+
+# ===========================
+# Environment Variables
+# ===========================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# ===========================
+# Contracts (Hardhat / Foundry)
+# ===========================
+contracts/cache/
+contracts/artifacts/
+contracts/out/
+contracts/broadcast/
+contracts/typechain/
+contracts/typechain-types/
+contracts/coverage/
+contracts/coverage.json
+
+# Hardhat
+cache/
+artifacts/
+
+# Foundry
+out/
+broadcast/
+
+# ===========================
+# Backend
+# ===========================
+backend/node_modules/
+backend/.env
+backend/dist/
+backend/build/
+backend/logs/
+backend/*.log
+
+# ===========================
+# Frontend
+# ===========================
+frontend/node_modules/
+frontend/.env
+frontend/.env.local
+frontend/dist/
+frontend/build/
+frontend/.next/
+frontend/out/
+frontend/.nuxt/
+frontend/.cache/
+
+# ===========================
+# Logs
+# ===========================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ===========================
+# Build Output
+# ===========================
+dist/
+build/
+.output/
+
+# ===========================
+# OS Files
+# ===========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+
+# ===========================
+# IDE / Editor
+# ===========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# ===========================
+# Testing
+# ===========================
+coverage/
+.nyc_output/
+
+# ===========================
+# Misc
+# ===========================
+.turbo/
+.vercel/
+.netlify/
+*.tsbuildinfo
