@@ -12,7 +12,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({
   children,
   className = "",
   title = "TERMINAL_V1.0",
-  status = "online",
+  status = "warning",
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [glitch, setGlitch] = useState(false);

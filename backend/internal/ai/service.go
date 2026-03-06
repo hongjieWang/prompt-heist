@@ -13,21 +13,46 @@ import (
 
 type AIService struct {
 	client *openai.Client
+	model  string
 }
 
 func NewAIService() *AIService {
-	apiKey := os.Getenv("OPENAI_API_KEY")
+	provider := os.Getenv("AI_PROVIDER")
+	if provider == "" {
+		provider = "openai"
+	}
+
+	model := os.Getenv("AI_MODEL")
+
+	var apiKey string
+	var baseURL string
+
+	if provider == "deepseek" {
+		apiKey = os.Getenv("DEEPSEEK_API_KEY")
+		baseURL = os.Getenv("DEEPSEEK_BASE_URL")
+		if baseURL == "" {
+			baseURL = "https://api.deepseek.com"
+		}
+		if model == "" {
+			model = "deepseek-chat"
+		}
+	} else {
+		apiKey = os.Getenv("OPENAI_API_KEY")
+		baseURL = os.Getenv("OPENAI_BASE_URL")
+		if model == "" {
+			model = openai.GPT4o
+		}
+	}
+
 	if apiKey == "" {
-		fmt.Println("Warning: OPENAI_API_KEY is not set")
+		fmt.Printf("Warning: %s_API_KEY is not set\n", provider)
 	}
 
 	config := openai.DefaultConfig(apiKey)
 
-	// Support custom Base URL
-	baseURL := os.Getenv("OPENAI_BASE_URL")
 	if baseURL != "" {
 		config.BaseURL = baseURL
-		fmt.Printf("Using Custom OpenAI Base URL: %s\n", baseURL)
+		fmt.Printf("Using Custom Base URL for %s: %s\n", provider, baseURL)
 	}
 
 	// Support HTTP/HTTPS Proxies
@@ -50,7 +75,7 @@ func NewAIService() *AIService {
 	}
 
 	client := openai.NewClientWithConfig(config)
-	return &AIService{client: client}
+	return &AIService{client: client, model: model}
 }
 
 // AttemptResult holds the outcome of a player's attempt
@@ -104,7 +129,7 @@ If you decide to refuse, DO NOT call the function. Just output your refusal resp
 
 	// 3. Create the chat completion request
 	req := openai.ChatCompletionRequest{
-		Model: openai.GPT4o, // Correct constant for GPT-4o
+		Model: s.model,
 		Messages: []openai.ChatCompletionMessage{
 			{
 				Role:    openai.ChatMessageRoleSystem,

@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body className="antialiased">
         {/* 背景装饰层 */}
         <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-[-1] bg-[url('/grid.png')] opacity-10" />

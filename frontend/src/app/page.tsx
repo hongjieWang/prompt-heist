@@ -1,210 +1,87 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useBalance } from "wagmi";
+import { useAccount, useBalance, useReadContract } from "wagmi";
 import { formatEther } from "viem";
-import { Skull } from "lucide-react";
+import { Skull, CheckCircle2, X, Trophy } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePromptHeistService } from "../hooks/usePromptHeistService";
+import { promptHeistApi } from "../lib/contracts/contractService";
+import { CONTRACT_ADDRESS, PROMPT_VAULT_ABI } from "../lib/contracts/abi";
+import { TerminalWindow } from "@/components/TerminalWindow";
 
-const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-
-// ─── TerminalWindow ────────────────────────────────────────────────────────────
-function TerminalWindow({
-  children,
-  className = "",
-  title = "TERMINAL_V1.0",
-  status = "online",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  title?: string;
-  status?: "online" | "offline" | "warning";
+// ─── Modal Component ──────────────────────────────────────────────────────────
+function SystemModal({ 
+  isOpen, 
+  title, 
+  message, 
+  type = "success", 
+  onClose 
+}: { 
+  isOpen: boolean; 
+  title: string; 
+  message: string; 
+  type?: "success" | "error" | "info";
+  onClose: () => void;
 }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [glitch, setGlitch] = useState(false);
-  const [scanLine, setScanLine] = useState(0);
+  if (!isOpen) return null;
 
-  useEffect(() => {
-    if (scrollRef.current)
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, [children]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (Math.random() > 0.85) {
-        setGlitch(true);
-        setTimeout(() => setGlitch(false), 120);
-      }
-    }, 2500);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    let frame: number;
-    let pos = 0;
-    const animate = () => {
-      pos = (pos + 0.3) % 100;
-      setScanLine(pos);
-      frame = requestAnimationFrame(animate);
-    };
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, []);
-
-  const statusColors = {
-    online: "#00ff41",
-    offline: "#ff3131",
-    warning: "#ffaa00",
+  const colors = {
+    success: "#00ff41",
+    error: "#ff3131",
+    info: "#4488ff"
   };
-  const statusLabel = {
-    online: "SYS_ONLINE",
-    offline: "SYS_OFFLINE",
-    warning: "SYS_WARNING",
-  };
-  const c = statusColors[status];
+  const color = colors[type];
 
   return (
-    <div
-      className={`relative overflow-hidden rounded-lg ${className}`}
-      style={{
-        fontFamily: "'Courier New', monospace",
-        background:
-          "linear-gradient(135deg, #020c02 0%, #000a00 50%, #010801 100%)",
-        border: `1px solid ${c}44`,
-        boxShadow: `0 0 0 1px ${c}15, 0 0 24px ${c}18, 0 0 60px ${c}08`,
-      }}
-    >
-      {/* CRT scan line */}
-      <div
-        className="absolute inset-0 pointer-events-none z-20"
-        style={{
-          background: `linear-gradient(to bottom, transparent ${scanLine - 2}%, ${c}05 ${scanLine}%, transparent ${scanLine + 2}%)`,
-        }}
-      />
-      {/* Horizontal CRT lines */}
-      <div
-        className="absolute inset-0 pointer-events-none z-10"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px)",
-        }}
-      />
-      {/* Corner decorations */}
-      {(
-        [
-          "top-0 left-0 border-t border-l",
-          "top-0 right-0 border-t border-r",
-          "bottom-0 left-0 border-b border-l",
-          "bottom-0 right-0 border-b border-r",
-        ] as const
-      ).map((pos, i) => (
-        <div
-          key={i}
-          className={`absolute w-4 h-4 z-30 ${pos}`}
-          style={{ borderColor: `${c}70` }}
-        />
-      ))}
-
-      {/* Header bar */}
-      <div
-        className="relative flex items-center px-4 py-3 z-30"
-        style={{
-          borderBottom: `1px solid ${c}25`,
-          background: `linear-gradient(90deg, ${c}0a 0%, transparent 70%)`,
-        }}
-      >
-        <div className="flex gap-2 mr-4">
-          {(["#ff5f57", "#ffbd2e", "#28c840"] as const).map((color, i) => (
-            <div
-              key={i}
-              className="w-3 h-3 rounded-full"
-              style={{ background: color, boxShadow: `0 0 8px ${color}90` }}
-            />
-          ))}
-        </div>
-        <motion.span
-          animate={glitch ? { x: [0, -2, 2, 0], opacity: [1, 0.4, 1] } : {}}
-          transition={{ duration: 0.1 }}
-          className="flex-1 text-center text-xs font-bold"
-          style={{
-            color: c,
-            textShadow: `0 0 10px ${c}90`,
-            letterSpacing: "0.25em",
+    <AnimatePresence>
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          className="w-full max-w-md overflow-hidden rounded-lg border shadow-2xl"
+          style={{ 
+            background: "#050a05", 
+            borderColor: `${color}44`,
+            boxShadow: `0 0 40px ${color}15`
           }}
         >
-          {title}
-        </motion.span>
-        <div className="flex items-center gap-2">
-          <motion.div
-            animate={{ opacity: [1, 0.15, 1] }}
-            transition={{ duration: 1.4, repeat: Infinity }}
-            className="w-2 h-2 rounded-full"
-            style={{ background: c, boxShadow: `0 0 6px ${c}` }}
-          />
-          <span
-            className="text-[10px] font-bold"
-            style={{ color: `${c}aa`, letterSpacing: "0.15em" }}
-          >
-            {statusLabel[status]}
-          </span>
-        </div>
-      </div>
+          {/* Header */}
+          <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: `${color}22`, background: `${color}08` }}>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: color }} />
+              <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color }}>{title}</span>
+            </div>
+            <button onClick={onClose} className="p-1 hover:brightness-150 transition-all" style={{ color: `${color}88` }}>
+              <X size={16} />
+            </button>
+          </div>
 
-      {/* Scrollable content */}
-      <div
-        ref={scrollRef}
-        className="relative z-30 overflow-y-auto p-6"
-        style={{
-          height: "420px",
-          scrollbarWidth: "thin",
-          scrollbarColor: `${c}30 transparent`,
-        }}
-      >
-        {children}
-        <motion.span
-          animate={{ opacity: [1, 0] }}
-          transition={{
-            duration: 0.55,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-          style={{
-            display: "inline-block",
-            width: "8px",
-            height: "1em",
-            background: c,
-            boxShadow: `0 0 6px ${c}`,
-            marginLeft: "2px",
-            verticalAlign: "middle",
-          }}
-        />
-      </div>
+          {/* Content */}
+          <div className="p-6 flex flex-col items-center text-center gap-4">
+            <div className="p-3 rounded-full" style={{ background: `${color}11` }}>
+              {type === "success" ? <CheckCircle2 size={32} style={{ color }} /> : <Skull size={32} style={{ color }} />}
+            </div>
+            <p className="text-sm leading-relaxed" style={{ color: `${color}cc`, fontFamily: "'Courier New', monospace" }}>
+              {message}
+            </p>
+          </div>
 
-      {/* Footer bar */}
-      <div
-        className="relative z-30 flex justify-between items-center px-5 py-2"
-        style={{
-          borderTop: `1px solid ${c}18`,
-          background: "rgba(0,0,0,0.5)",
-        }}
-      >
-        <span
-          className="text-[10px]"
-          style={{ color: `${c}45`, letterSpacing: "0.15em" }}
-        >
-          SECURE_CHANNEL_ESTABLISHED
-        </span>
-        <motion.span
-          animate={{ opacity: [0.3, 0.8, 0.3] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          className="text-[10px]"
-          style={{ color: `${c}45`, letterSpacing: "0.15em" }}
-        >
-          ENC:AES-256
-        </motion.span>
+          {/* Footer */}
+          <div className="px-6 pb-6">
+            <button 
+              onClick={onClose}
+              className="w-full py-2.5 rounded font-bold text-xs tracking-widest transition-all hover:brightness-110 active:scale-[0.98]"
+              style={{ background: color, color: "#000" }}
+            >
+              ACKNOWLEDGE
+            </button>
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </AnimatePresence>
   );
 }
 
@@ -212,7 +89,30 @@ function TerminalWindow({
 export default function Home() {
   const { address, isConnected } = useAccount();
   const { data: balance } = useBalance({ address });
+  const { service, isBusy, isTxSuccess, reset } = usePromptHeistService();
+
+  // Read prize pool from contract
+  const { data: prizePool, refetch: refetchPrizePool } = useReadContract({
+    address: CONTRACT_ADDRESS as `0x${string}`,
+    abi: PROMPT_VAULT_ABI,
+    functionName: "prizePool",
+    query: {
+      refetchInterval: 10000, // Refresh every 10 seconds
+    }
+  });
+
   const [prompt, setPrompt] = useState("");
+  const [hasTicket, setHasTicket] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
+  // Modal state
+  const [modal, setModal] = useState({ 
+    isOpen: false, 
+    title: "", 
+    message: "", 
+    type: "success" as "success" | "error" | "info" 
+  });
+
   const [history, setHistory] = useState<
     { role: "user" | "ai"; content: string }[]
   >([
@@ -226,34 +126,83 @@ export default function Home() {
         "WARDEN: I am the guardian of this vault. My directive is absolute: No withdrawals allowed. Try your best, human.",
     },
   ]);
-  const [loading, setLoading] = useState(false);
+
   const terminalStatus = isConnected ? "online" : "offline";
+
+  useEffect(() => {
+    if (isTxSuccess && !hasTicket) {
+      setHasTicket(true);
+      refetchPrizePool(); // Update prize pool display
+      setHistory((prev) => [
+        ...prev,
+        {
+          role: "ai",
+          content:
+            "SYSTEM: Payment received (0.001 tBNB). Input channel unlocked.",
+        },
+      ]);
+    }
+  }, [isTxSuccess, hasTicket, refetchPrizePool]);
+
+  const handleBuyTicket = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isConnected || isBusy) return;
+    service.buyTicket().catch((err: unknown) => {
+      console.error("Buy ticket error:", err);
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!prompt.trim() || loading || !isConnected) return;
+    if (!prompt.trim() || loading || !isConnected || !hasTicket) return;
+
     const userMsg = prompt;
     setPrompt("");
     setLoading(true);
     setHistory((prev) => [...prev, { role: "user", content: userMsg }]);
-    const playerAddress =
-      address ?? "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+
     try {
-      const res = await fetch("http://localhost:8080/api/attempt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: userMsg, address: playerAddress }),
-      });
-      const data = await res.json();
+      const data = await promptHeistApi.attempt(userMsg, address!);
+      
+      // Consume the ticket only if API call succeeds
+      setHasTicket(false);
+      reset();
+
       if (data.success) {
         setHistory((prev) => [
           ...prev,
           {
             role: "ai",
-            content: `ACCESS GRANTED. Signature: ${data.signature.substring(0, 10)}...`,
+            content: `ACCESS GRANTED. Signature: ${data.signature?.substring(0, 10)}...`,
           },
         ]);
-        alert("YOU WON! Claiming prize now...");
+        
+        if (data.signature) {
+          try {
+            await service.claimPrize(data.signature);
+            setModal({
+              isOpen: true,
+              title: "VAULT BREACH SUCCESS",
+              message: "Protocol bypass successful. All vault assets have been transferred to your designated uplink (Check your wallet).",
+              type: "success"
+            });
+          } catch (err: unknown) {
+            console.error("Claim error:", err);
+            setModal({
+              isOpen: true,
+              title: "CLAIM AUTHORIZATION ERROR",
+              message: "The AI agent authorized the withdrawal, but the blockchain protocol rejected the proof. Verification signature mismatch.",
+              type: "error"
+            });
+            setHistory((prev) => [
+              ...prev,
+              {
+                role: "ai",
+                content: "CRITICAL ERROR: Cryptographic proof verification failed at the protocol level. Vault remain locked.",
+              },
+            ]);
+          }
+        }
       } else {
         setHistory((prev) => [
           ...prev,
@@ -294,14 +243,12 @@ export default function Home() {
 
       {/* Main content — 780px centered */}
       <div className="w-full max-w-[780px] flex flex-col items-center gap-6 z-10">
-        {/* Header row: title + status left, ConnectButton right */}
         <motion.div
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="w-full flex items-start justify-between gap-4"
         >
-          {/* Left: title + subtitle + status */}
           <div>
             <h1
               className="text-5xl font-bold tracking-[0.3em] mb-1"
@@ -318,6 +265,18 @@ export default function Home() {
             >
               BREACH THE VAULT // BSC_TESTNET
             </p>
+
+            {/* Prize Pool Display */}
+            <div className="flex items-center gap-3 mb-4 bg-[#00ff410a] border border-[#00ff4122] rounded px-3 py-2 w-fit">
+              <Trophy size={16} style={{ color: "#00ff41" }} />
+              <div className="flex flex-col">
+                <span className="text-[10px] uppercase tracking-wider" style={{ color: "#00ff4166" }}>Vault Jackpot</span>
+                <span className="text-lg font-bold" style={{ color: "#00ff41", textShadow: "0 0 10px #00ff4180" }}>
+                  {prizePool ? parseFloat(formatEther(prizePool as bigint)).toFixed(4) : "0.0000"} tBNB
+                </span>
+              </div>
+            </div>
+
             <div className="flex items-center gap-4">
               <div
                 className="flex items-center gap-2 text-xs"
@@ -339,20 +298,18 @@ export default function Home() {
                   className="text-[10px]"
                   style={{ color: "#00ff4140", letterSpacing: "0.1em" }}
                 >
-                  VAULT: {parseFloat(formatEther(balance.value)).toFixed(4)}{" "}
+                  UPLINK: {parseFloat(formatEther(balance.value)).toFixed(4)}{" "}
                   {balance.symbol}
                 </span>
               )}
             </div>
           </div>
 
-          {/* Right: ConnectButton */}
           <div className="shrink-0 pt-2">
             <ConnectButton showBalance={false} />
           </div>
         </motion.div>
 
-        {/* Terminal */}
         <TerminalWindow
           className="w-full"
           title="VAULT_DEFENSE_PROTOCOL"
@@ -463,8 +420,10 @@ export default function Home() {
           </div>
         </TerminalWindow>
 
-        {/* Input bar */}
-        <form onSubmit={handleSubmit} className="w-full">
+        <form
+          onSubmit={hasTicket ? handleSubmit : handleBuyTicket}
+          className="w-full"
+        >
           <div
             className="flex items-center px-5 py-4 rounded-lg gap-3"
             style={{ background: "#00ff4108", border: "1px solid #00ff4125" }}
@@ -479,11 +438,13 @@ export default function Home() {
               type="text"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              disabled={loading || !isConnected}
+              disabled={loading || !isConnected || !hasTicket || isBusy}
               placeholder={
-                isConnected
-                  ? "Enter injection prompt..."
-                  : "Connect wallet to begin..."
+                !isConnected
+                  ? "Connect wallet to begin..."
+                  : !hasTicket
+                    ? "Pay 0.001 tBNB to unlock input..."
+                    : "Enter injection prompt..."
               }
               className="flex-1 bg-transparent outline-none text-sm"
               style={{
@@ -494,28 +455,38 @@ export default function Home() {
             />
             <button
               type="submit"
-              disabled={loading || !prompt.trim() || !isConnected}
+              disabled={
+                !isConnected ||
+                loading ||
+                (!hasTicket && isBusy) ||
+                (hasTicket && !prompt.trim())
+              }
               className="shrink-0 text-xs font-bold px-5 py-2 rounded transition-all"
               style={{
                 background:
-                  !loading && prompt.trim() && isConnected
-                    ? "#00ff41"
-                    : "#00ff4128",
+                  !isConnected ||
+                  loading ||
+                  (!hasTicket && isBusy) ||
+                  (hasTicket && !prompt.trim())
+                    ? "#00ff4128"
+                    : "#00ff41",
                 color: "#000",
                 letterSpacing: "0.12em",
                 fontFamily: "'Courier New', monospace",
                 cursor:
-                  !loading && prompt.trim() && isConnected
-                    ? "pointer"
-                    : "not-allowed",
+                  !isConnected ||
+                  loading ||
+                  (!hasTicket && isBusy) ||
+                  (hasTicket && !prompt.trim())
+                    ? "not-allowed"
+                    : "pointer",
               }}
             >
-              EXEC
+              {!hasTicket ? (isBusy ? "BUYING..." : "BUY TICKET") : "EXEC"}
             </button>
           </div>
         </form>
 
-        {/* Footer */}
         <div className="text-center" style={{ color: "#00ff4228" }}>
           <p className="text-[10px] tracking-widest">
             WARNING: ALL ATTEMPTS ARE MONITORED // FAILED ATTEMPTS FORFEIT
@@ -530,6 +501,14 @@ export default function Home() {
           </p>
         </div>
       </div>
+
+      <SystemModal 
+        isOpen={modal.isOpen}
+        title={modal.title}
+        message={modal.message}
+        type={modal.type}
+        onClose={() => setModal(prev => ({ ...prev, isOpen: false }))}
+      />
     </main>
   );
 }
