@@ -13,7 +13,7 @@ func NewRouter(gameHandler *handlers.GameHandler) *gin.Engine {
 
 	// Configure CORS
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"}, // Allow frontend origin
+		AllowOrigins:     []string{"http://localhost:3000", "https://prompt.aipmedia.cn"}, // Allow frontend origin
 		AllowMethods:     []string{"POST", "GET", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
