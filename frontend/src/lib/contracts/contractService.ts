@@ -8,9 +8,12 @@ export interface AttemptResponse {
   amount?: string;
 }
 
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE ?? "https://prompt.aipmedia.cn";
+
 export const promptHeistApi = {
   async attempt(prompt: string, address: string): Promise<AttemptResponse> {
-    const res = await fetch("https://prompt.aipmedia.cn/v1/api/attempt", {
+    const res = await fetch(`${API_BASE}/api/attempt`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt, address }),
