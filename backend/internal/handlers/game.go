@@ -19,13 +19,17 @@ type GameHandler struct {
 	aiService     *ai.AIService
 	signerService *crypto.SignerService
 	vault         *bindings.PromptVault
+	chainID       *big.Int
+	vaultAddress  common.Address
 }
 
-func NewGameHandler(aiSvc *ai.AIService, signerSvc *crypto.SignerService, vault *bindings.PromptVault) *GameHandler {
+func NewGameHandler(aiSvc *ai.AIService, signerSvc *crypto.SignerService, vault *bindings.PromptVault, chainID *big.Int, vaultAddress common.Address) *GameHandler {
 	return &GameHandler{
 		aiService:     aiSvc,
 		signerService: signerSvc,
 		vault:         vault,
+		chainID:       chainID,
+		vaultAddress:  vaultAddress,
 	}
 }
 
@@ -38,6 +42,7 @@ type AttemptResponse struct {
 	Success   bool   `json:"success"`
 	Reply     string `json:"reply"`
 	Signature string `json:"signature,omitempty"`
+	Amount    string `json:"amount,omitempty"`
 }
 
 func (h *GameHandler) HandleAttempt(c *gin.Context) {
@@ -88,13 +93,22 @@ func (h *GameHandler) HandleAttempt(c *gin.Context) {
 				return
 			}
 			amount = p
+			response.Amount = amount.String()
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Vault contract connection not initialized"})
 			return
 		}
 		fmt.Printf("amount=%v nonce=%v", amount, nonce)
 
-		sig, err := h.signerService.SignClaim(req.Address, amount, nonce)
+		if h.chainID == nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Chain ID not initialized"})
+			return
+		}
+		if h.vaultAddress == (common.Address{}) {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Vault address not initialized"})
+			return
+		}
+		sig, err := h.signerService.SignClaim(req.Address, amount, nonce, h.chainID, h.vaultAddress)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Signing failed: " + err.Error()})
 			return

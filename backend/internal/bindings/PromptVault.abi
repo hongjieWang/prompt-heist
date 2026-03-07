@@ -21,16 +21,94 @@
   },
   {
     "type": "function",
+    "name": "MAX_TICKET_PRICE",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "MIN_TICKET_PRICE",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "claimPrize",
     "inputs": [
       {
         "name": "signature",
         "type": "bytes",
         "internalType": "bytes"
+      },
+      {
+        "name": "signedAmount",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "getNonce",
+    "inputs": [
+      {
+        "name": "player",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getVaultState",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "_prizePool",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "_protocolRevenue",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "_ticketPrice",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "_signerAddress",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -106,6 +184,13 @@
   },
   {
     "type": "function",
+    "name": "seedPrizePool",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
     "name": "setSigner",
     "inputs": [
       {
@@ -178,6 +263,25 @@
   },
   {
     "type": "event",
+    "name": "FundsReceived",
+    "inputs": [
+      {
+        "name": "sender",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
     "name": "OwnershipTransferred",
     "inputs": [
       {
@@ -216,8 +320,33 @@
   },
   {
     "type": "event",
+    "name": "RevenueWithdrawn",
+    "inputs": [
+      {
+        "name": "to",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
     "name": "SignerUpdated",
     "inputs": [
+      {
+        "name": "oldSigner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
       {
         "name": "newSigner",
         "type": "address",
@@ -231,6 +360,12 @@
     "type": "event",
     "name": "TicketPriceUpdated",
     "inputs": [
+      {
+        "name": "oldPrice",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
       {
         "name": "newPrice",
         "type": "uint256",

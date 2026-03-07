@@ -31,34 +31,41 @@ func NewSignerService(hexKey string) (*SignerService, error) {
 }
 
 // SignClaim generates an EIP-191 compliant signature for the claimPrize function in Solidity.
-// The data structure matches: keccak256(abi.encodePacked(player, amount, nonce))
-func (s *SignerService) SignClaim(playerAddress string, amount *big.Int, nonce *big.Int) (string, error) {
+// The data structure matches: keccak256(abi.encodePacked(player, amount, nonce, chainId, contract))
+func (s *SignerService) SignClaim(playerAddress string, amount *big.Int, nonce *big.Int, chainID *big.Int, contractAddress common.Address) (string, error) {
 	if !common.IsHexAddress(playerAddress) {
 		return "", errors.New("invalid player address")
+	}
+	if chainID == nil {
+		return "", errors.New("chain id is required")
 	}
 	player := common.HexToAddress(playerAddress)
 
 	// 1. Pack the data exactly as Solidity's abi.encodePacked
-	// Solidity: abi.encodePacked(player, amount, nonce)
+	// Solidity: abi.encodePacked(player, amount, nonce, chainId, address(this))
 	// - player: address (20 bytes)
 	// - amount: uint256 (32 bytes)
 	// - nonce:  uint256 (32 bytes)
-	
-	// Note: In abi.encodePacked, types are tightly packed without padding, 
+	// - chainId: uint256 (32 bytes)
+	// - contract: address (20 bytes)
+
+	// Note: In abi.encodePacked, types are tightly packed without padding,
 	// EXCEPT for dynamic types which are not present here.
-	// However, standard Go implementations of abi.encodePacked for uint256 usually require 
-	// padding to 32 bytes to match EVM word size if we were using abi.encode. 
-	// BUT abi.encodePacked is different. 
+	// However, standard Go implementations of abi.encodePacked for uint256 usually require
+	// padding to 32 bytes to match EVM word size if we were using abi.encode.
+	// BUT abi.encodePacked is different.
 	// Let's look at how Solidity packs it:
 	// address (20 bytes) + uint256 (32 bytes) + uint256 (32 bytes) = 84 bytes total?
-	// ACTUALLY: abi.encodePacked does NOT pad to 32 bytes for smaller types, 
+	// ACTUALLY: abi.encodePacked does NOT pad to 32 bytes for smaller types,
 	// but uint256 IS 32 bytes.
-	
+
 	data := []byte{}
-	data = append(data, player.Bytes()...)              // 20 bytes
+	data = append(data, player.Bytes()...) // 20 bytes
 	// Use common.LeftPadBytes directly on byte slice
-	data = append(data, common.LeftPadBytes(amount.Bytes(), 32)...) // 32 bytes
-	data = append(data, common.LeftPadBytes(nonce.Bytes(), 32)...)  // 32 bytes
+	data = append(data, common.LeftPadBytes(amount.Bytes(), 32)...)  // 32 bytes
+	data = append(data, common.LeftPadBytes(nonce.Bytes(), 32)...)   // 32 bytes
+	data = append(data, common.LeftPadBytes(chainID.Bytes(), 32)...) // 32 bytes
+	data = append(data, contractAddress.Bytes()...)                  // 20 bytes
 
 	// 2. Hash the data (Keccak256)
 	hash := crypto.Keccak256Hash(data)
@@ -75,7 +82,7 @@ func (s *SignerService) SignClaim(playerAddress string, amount *big.Int, nonce *
 		return "", err
 	}
 
-	// 5. Adjust V value (v + 27) for legacy compatibility if needed, 
+	// 5. Adjust V value (v + 27) for legacy compatibility if needed,
 	// but go-ethereum's crypto.Sign returns [R || S || V] where V is 0 or 1.
 	// OpenZeppelin's ECDSA.recover expects V to be 27 or 28.
 	if signature[64] < 27 {

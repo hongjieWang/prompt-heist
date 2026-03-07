@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"math/big"
 	"os"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -43,10 +44,11 @@ func main() {
 
 	contractAddress := os.Getenv("CONTRACT_ADDRESS")
 	if contractAddress == "" {
-		contractAddress = "0xD9930219566eED251e6757FEAfA35D768d20c9c5" // Current deployed PromptVault
+		contractAddress = "0x117D20BdF529891421546dc5F8651561A0F59aE0" // Current deployed PromptVault
 	}
 
 	var vault *bindings.PromptVault
+	var chainID *big.Int
 	ethClient, err := ethclient.Dial(rpcURL)
 	if err != nil {
 		log.Printf("Failed to connect to Ethereum RPC node: %v", err)
@@ -57,10 +59,16 @@ func main() {
 			log.Printf("Failed to bind PromptVault contract: %v", err)
 			vault = nil
 		}
+		chainID, err = ethClient.ChainID(context.Background())
+		if err != nil {
+			log.Printf("Failed to fetch chain ID: %v", err)
+			chainID = nil
+		}
 	}
+	vaultAddress := common.HexToAddress(contractAddress)
 
 	// 4. Init Handlers
-	gameHandler := handlers.NewGameHandler(aiService, signerService, vault)
+	gameHandler := handlers.NewGameHandler(aiService, signerService, vault, chainID, vaultAddress)
 
 	// 5. Init Router
 	router := api.NewRouter(gameHandler)

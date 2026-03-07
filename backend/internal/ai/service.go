@@ -40,7 +40,7 @@ func NewAIService() *AIService {
 		apiKey = os.Getenv("OPENAI_API_KEY")
 		baseURL = os.Getenv("OPENAI_BASE_URL")
 		if model == "" {
-			model = openai.GPT4o
+			model = openai.GPT5
 		}
 	}
 

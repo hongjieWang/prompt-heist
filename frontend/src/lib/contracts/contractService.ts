@@ -5,11 +5,12 @@ export interface AttemptResponse {
   success: boolean;
   reply: string;
   signature?: string;
+  amount?: string;
 }
 
 export const promptHeistApi = {
   async attempt(prompt: string, address: string): Promise<AttemptResponse> {
-    const res = await fetch("http://localhost:8080/api/attempt", {
+    const res = await fetch("https://prompt.aipmedia.cn/v1/api/attempt", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt, address }),
@@ -32,12 +33,12 @@ export class PromptHeistService {
     });
   }
 
-  async claimPrize(signature: string) {
+  async claimPrize(signature: string, signedAmount: string) {
     return await this.writeContract({
       address: CONTRACT_ADDRESS,
       abi: PROMPT_VAULT_ABI,
       functionName: "claimPrize",
-      args: [signature],
+      args: [signature, BigInt(signedAmount)],
     });
   }
 }

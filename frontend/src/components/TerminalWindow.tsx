@@ -77,24 +77,11 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({
       }}
     >
       {/* CRT scanline overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none z-20"
-        style={{
-          background: `linear-gradient(
-            to bottom,
-            transparent ${scanLine - 2}%,
-            ${statusColors[status]}06 ${scanLine}%,
-            transparent ${scanLine + 2}%
-          )`,
-          transition: "none",
-        }}
-      />
 
       {/* Static noise texture */}
       <div
         className="absolute inset-0 pointer-events-none z-10 opacity-[0.03]"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
           backgroundSize: "128px 128px",
         }}
       />
@@ -112,6 +99,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({
       <div
         className="relative flex items-center px-4 py-2.5 z-30"
         style={{
+          marginTop: "10px",
           borderBottom: `1px solid ${statusColors[status]}20`,
           background: `linear-gradient(90deg, ${statusColors[status]}08 0%, transparent 60%)`,
         }}
@@ -125,6 +113,11 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({
               style={{
                 background: color,
                 boxShadow: `0 0 6px ${color}80`,
+                width: "12px",
+                height: "12px",
+                marginLeft: i === 0 ? "10px" : "4px",
+                marginRight: "4px",
+                marginBottom: "10px",
               }}
             />
           ))}
@@ -139,13 +132,20 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({
             color: statusColors[status],
             textShadow: `0 0 8px ${statusColors[status]}80`,
             letterSpacing: "0.2em",
+            marginBottom: "10px",
           }}
         >
           {title}
         </motion.span>
 
         {/* Status indicator */}
-        <div className="flex items-center gap-2">
+        <div
+          className="flex items-center gap-2"
+          style={{
+            marginRight: "10px",
+            marginBottom: "10px",
+          }}
+        >
           <motion.div
             animate={{ opacity: [1, 0.2, 1] }}
             transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
@@ -153,6 +153,9 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({
             style={{
               background: statusColors[status],
               boxShadow: `0 0 6px ${statusColors[status]}`,
+              width: "6px",
+              height: "6px",
+              marginRight: "4px",
             }}
           />
           <span
@@ -184,6 +187,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({
         className="relative z-30 overflow-y-auto p-4"
         style={{
           maxHeight: "60vh",
+          minHeight: "500px",
           scrollbarWidth: "thin",
           scrollbarColor: `${statusColors[status]}40 transparent`,
         }}

@@ -31,7 +31,7 @@ var (
 
 // PromptVaultMetaData contains all meta data concerning the PromptVault contract.
 var PromptVaultMetaData = &bind.MetaData{
-	ABI: "[{\"type\":\"constructor\",\"inputs\":[{\"name\":\"_ticketPrice\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_signerAddress\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"receive\",\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"claimPrize\",\"inputs\":[{\"name\":\"signature\",\"type\":\"bytes\",\"internalType\":\"bytes\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"nonces\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"owner\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"play\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"prizePool\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"protocolRevenue\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"renounceOwnership\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setSigner\",\"inputs\":[{\"name\":\"_newSigner\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setTicketPrice\",\"inputs\":[{\"name\":\"_newPrice\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"signerAddress\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"ticketPrice\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"transferOwnership\",\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"withdrawRevenue\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"event\",\"name\":\"OwnershipTransferred\",\"inputs\":[{\"name\":\"previousOwner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"newOwner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"PrizeClaimed\",\"inputs\":[{\"name\":\"winner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SignerUpdated\",\"inputs\":[{\"name\":\"newSigner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"TicketPriceUpdated\",\"inputs\":[{\"name\":\"newPrice\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"TicketPurchased\",\"inputs\":[{\"name\":\"player\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"prizePoolNew\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"error\",\"name\":\"ECDSAInvalidSignature\",\"inputs\":[]},{\"type\":\"error\",\"name\":\"ECDSAInvalidSignatureLength\",\"inputs\":[{\"name\":\"length\",\"type\":\"uint256\",\"internalType\":\"uint256\"}]},{\"type\":\"error\",\"name\":\"ECDSAInvalidSignatureS\",\"inputs\":[{\"name\":\"s\",\"type\":\"bytes32\",\"internalType\":\"bytes32\"}]},{\"type\":\"error\",\"name\":\"OwnableInvalidOwner\",\"inputs\":[{\"name\":\"owner\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"OwnableUnauthorizedAccount\",\"inputs\":[{\"name\":\"account\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"ReentrancyGuardReentrantCall\",\"inputs\":[]}]",
+	ABI: "[{\"type\":\"constructor\",\"inputs\":[{\"name\":\"_ticketPrice\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_signerAddress\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"receive\",\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"MAX_TICKET_PRICE\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"MIN_TICKET_PRICE\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"claimPrize\",\"inputs\":[{\"name\":\"signature\",\"type\":\"bytes\",\"internalType\":\"bytes\"},{\"name\":\"signedAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"getNonce\",\"inputs\":[{\"name\":\"player\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getVaultState\",\"inputs\":[],\"outputs\":[{\"name\":\"_prizePool\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_protocolRevenue\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_ticketPrice\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_signerAddress\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"nonces\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"owner\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"play\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"prizePool\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"protocolRevenue\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"renounceOwnership\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"seedPrizePool\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"setSigner\",\"inputs\":[{\"name\":\"_newSigner\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setTicketPrice\",\"inputs\":[{\"name\":\"_newPrice\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"signerAddress\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"ticketPrice\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"transferOwnership\",\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"withdrawRevenue\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"event\",\"name\":\"FundsReceived\",\"inputs\":[{\"name\":\"sender\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"OwnershipTransferred\",\"inputs\":[{\"name\":\"previousOwner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"newOwner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"PrizeClaimed\",\"inputs\":[{\"name\":\"winner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"RevenueWithdrawn\",\"inputs\":[{\"name\":\"to\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SignerUpdated\",\"inputs\":[{\"name\":\"oldSigner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"newSigner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"TicketPriceUpdated\",\"inputs\":[{\"name\":\"oldPrice\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"newPrice\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"TicketPurchased\",\"inputs\":[{\"name\":\"player\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"prizePoolNew\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"error\",\"name\":\"ECDSAInvalidSignature\",\"inputs\":[]},{\"type\":\"error\",\"name\":\"ECDSAInvalidSignatureLength\",\"inputs\":[{\"name\":\"length\",\"type\":\"uint256\",\"internalType\":\"uint256\"}]},{\"type\":\"error\",\"name\":\"ECDSAInvalidSignatureS\",\"inputs\":[{\"name\":\"s\",\"type\":\"bytes32\",\"internalType\":\"bytes32\"}]},{\"type\":\"error\",\"name\":\"OwnableInvalidOwner\",\"inputs\":[{\"name\":\"owner\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"OwnableUnauthorizedAccount\",\"inputs\":[{\"name\":\"account\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"ReentrancyGuardReentrantCall\",\"inputs\":[]}]",
 }
 
 // PromptVaultABI is the input ABI used to generate the binding from.
@@ -178,6 +178,154 @@ func (_PromptVault *PromptVaultTransactorRaw) Transfer(opts *bind.TransactOpts) 
 // Transact invokes the (paid) contract method with params as input values.
 func (_PromptVault *PromptVaultTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
 	return _PromptVault.Contract.contract.Transact(opts, method, params...)
+}
+
+// MAXTICKETPRICE is a free data retrieval call binding the contract method 0xb5e41287.
+//
+// Solidity: function MAX_TICKET_PRICE() view returns(uint256)
+func (_PromptVault *PromptVaultCaller) MAXTICKETPRICE(opts *bind.CallOpts) (*big.Int, error) {
+	var out []interface{}
+	err := _PromptVault.contract.Call(opts, &out, "MAX_TICKET_PRICE")
+
+	if err != nil {
+		return *new(*big.Int), err
+	}
+
+	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
+
+	return out0, err
+
+}
+
+// MAXTICKETPRICE is a free data retrieval call binding the contract method 0xb5e41287.
+//
+// Solidity: function MAX_TICKET_PRICE() view returns(uint256)
+func (_PromptVault *PromptVaultSession) MAXTICKETPRICE() (*big.Int, error) {
+	return _PromptVault.Contract.MAXTICKETPRICE(&_PromptVault.CallOpts)
+}
+
+// MAXTICKETPRICE is a free data retrieval call binding the contract method 0xb5e41287.
+//
+// Solidity: function MAX_TICKET_PRICE() view returns(uint256)
+func (_PromptVault *PromptVaultCallerSession) MAXTICKETPRICE() (*big.Int, error) {
+	return _PromptVault.Contract.MAXTICKETPRICE(&_PromptVault.CallOpts)
+}
+
+// MINTICKETPRICE is a free data retrieval call binding the contract method 0x1af2a065.
+//
+// Solidity: function MIN_TICKET_PRICE() view returns(uint256)
+func (_PromptVault *PromptVaultCaller) MINTICKETPRICE(opts *bind.CallOpts) (*big.Int, error) {
+	var out []interface{}
+	err := _PromptVault.contract.Call(opts, &out, "MIN_TICKET_PRICE")
+
+	if err != nil {
+		return *new(*big.Int), err
+	}
+
+	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
+
+	return out0, err
+
+}
+
+// MINTICKETPRICE is a free data retrieval call binding the contract method 0x1af2a065.
+//
+// Solidity: function MIN_TICKET_PRICE() view returns(uint256)
+func (_PromptVault *PromptVaultSession) MINTICKETPRICE() (*big.Int, error) {
+	return _PromptVault.Contract.MINTICKETPRICE(&_PromptVault.CallOpts)
+}
+
+// MINTICKETPRICE is a free data retrieval call binding the contract method 0x1af2a065.
+//
+// Solidity: function MIN_TICKET_PRICE() view returns(uint256)
+func (_PromptVault *PromptVaultCallerSession) MINTICKETPRICE() (*big.Int, error) {
+	return _PromptVault.Contract.MINTICKETPRICE(&_PromptVault.CallOpts)
+}
+
+// GetNonce is a free data retrieval call binding the contract method 0x2d0335ab.
+//
+// Solidity: function getNonce(address player) view returns(uint256)
+func (_PromptVault *PromptVaultCaller) GetNonce(opts *bind.CallOpts, player common.Address) (*big.Int, error) {
+	var out []interface{}
+	err := _PromptVault.contract.Call(opts, &out, "getNonce", player)
+
+	if err != nil {
+		return *new(*big.Int), err
+	}
+
+	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
+
+	return out0, err
+
+}
+
+// GetNonce is a free data retrieval call binding the contract method 0x2d0335ab.
+//
+// Solidity: function getNonce(address player) view returns(uint256)
+func (_PromptVault *PromptVaultSession) GetNonce(player common.Address) (*big.Int, error) {
+	return _PromptVault.Contract.GetNonce(&_PromptVault.CallOpts, player)
+}
+
+// GetNonce is a free data retrieval call binding the contract method 0x2d0335ab.
+//
+// Solidity: function getNonce(address player) view returns(uint256)
+func (_PromptVault *PromptVaultCallerSession) GetNonce(player common.Address) (*big.Int, error) {
+	return _PromptVault.Contract.GetNonce(&_PromptVault.CallOpts, player)
+}
+
+// GetVaultState is a free data retrieval call binding the contract method 0x4a8c110a.
+//
+// Solidity: function getVaultState() view returns(uint256 _prizePool, uint256 _protocolRevenue, uint256 _ticketPrice, address _signerAddress)
+func (_PromptVault *PromptVaultCaller) GetVaultState(opts *bind.CallOpts) (struct {
+	PrizePool       *big.Int
+	ProtocolRevenue *big.Int
+	TicketPrice     *big.Int
+	SignerAddress   common.Address
+}, error) {
+	var out []interface{}
+	err := _PromptVault.contract.Call(opts, &out, "getVaultState")
+
+	outstruct := new(struct {
+		PrizePool       *big.Int
+		ProtocolRevenue *big.Int
+		TicketPrice     *big.Int
+		SignerAddress   common.Address
+	})
+	if err != nil {
+		return *outstruct, err
+	}
+
+	outstruct.PrizePool = *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
+	outstruct.ProtocolRevenue = *abi.ConvertType(out[1], new(*big.Int)).(**big.Int)
+	outstruct.TicketPrice = *abi.ConvertType(out[2], new(*big.Int)).(**big.Int)
+	outstruct.SignerAddress = *abi.ConvertType(out[3], new(common.Address)).(*common.Address)
+
+	return *outstruct, err
+
+}
+
+// GetVaultState is a free data retrieval call binding the contract method 0x4a8c110a.
+//
+// Solidity: function getVaultState() view returns(uint256 _prizePool, uint256 _protocolRevenue, uint256 _ticketPrice, address _signerAddress)
+func (_PromptVault *PromptVaultSession) GetVaultState() (struct {
+	PrizePool       *big.Int
+	ProtocolRevenue *big.Int
+	TicketPrice     *big.Int
+	SignerAddress   common.Address
+}, error) {
+	return _PromptVault.Contract.GetVaultState(&_PromptVault.CallOpts)
+}
+
+// GetVaultState is a free data retrieval call binding the contract method 0x4a8c110a.
+//
+// Solidity: function getVaultState() view returns(uint256 _prizePool, uint256 _protocolRevenue, uint256 _ticketPrice, address _signerAddress)
+func (_PromptVault *PromptVaultCallerSession) GetVaultState() (struct {
+	PrizePool       *big.Int
+	ProtocolRevenue *big.Int
+	TicketPrice     *big.Int
+	SignerAddress   common.Address
+}, error) {
+	return _PromptVault.Contract.GetVaultState(&_PromptVault.CallOpts)
 }
 
 // Nonces is a free data retrieval call binding the contract method 0x7ecebe00.
@@ -366,25 +514,25 @@ func (_PromptVault *PromptVaultCallerSession) TicketPrice() (*big.Int, error) {
 	return _PromptVault.Contract.TicketPrice(&_PromptVault.CallOpts)
 }
 
-// ClaimPrize is a paid mutator transaction binding the contract method 0x93395bdc.
+// ClaimPrize is a paid mutator transaction binding the contract method 0x0dcba9c5.
 //
-// Solidity: function claimPrize(bytes signature) returns()
-func (_PromptVault *PromptVaultTransactor) ClaimPrize(opts *bind.TransactOpts, signature []byte) (*types.Transaction, error) {
-	return _PromptVault.contract.Transact(opts, "claimPrize", signature)
+// Solidity: function claimPrize(bytes signature, uint256 signedAmount) returns()
+func (_PromptVault *PromptVaultTransactor) ClaimPrize(opts *bind.TransactOpts, signature []byte, signedAmount *big.Int) (*types.Transaction, error) {
+	return _PromptVault.contract.Transact(opts, "claimPrize", signature, signedAmount)
 }
 
-// ClaimPrize is a paid mutator transaction binding the contract method 0x93395bdc.
+// ClaimPrize is a paid mutator transaction binding the contract method 0x0dcba9c5.
 //
-// Solidity: function claimPrize(bytes signature) returns()
-func (_PromptVault *PromptVaultSession) ClaimPrize(signature []byte) (*types.Transaction, error) {
-	return _PromptVault.Contract.ClaimPrize(&_PromptVault.TransactOpts, signature)
+// Solidity: function claimPrize(bytes signature, uint256 signedAmount) returns()
+func (_PromptVault *PromptVaultSession) ClaimPrize(signature []byte, signedAmount *big.Int) (*types.Transaction, error) {
+	return _PromptVault.Contract.ClaimPrize(&_PromptVault.TransactOpts, signature, signedAmount)
 }
 
-// ClaimPrize is a paid mutator transaction binding the contract method 0x93395bdc.
+// ClaimPrize is a paid mutator transaction binding the contract method 0x0dcba9c5.
 //
-// Solidity: function claimPrize(bytes signature) returns()
-func (_PromptVault *PromptVaultTransactorSession) ClaimPrize(signature []byte) (*types.Transaction, error) {
-	return _PromptVault.Contract.ClaimPrize(&_PromptVault.TransactOpts, signature)
+// Solidity: function claimPrize(bytes signature, uint256 signedAmount) returns()
+func (_PromptVault *PromptVaultTransactorSession) ClaimPrize(signature []byte, signedAmount *big.Int) (*types.Transaction, error) {
+	return _PromptVault.Contract.ClaimPrize(&_PromptVault.TransactOpts, signature, signedAmount)
 }
 
 // Play is a paid mutator transaction binding the contract method 0x93e84cd9.
@@ -427,6 +575,27 @@ func (_PromptVault *PromptVaultSession) RenounceOwnership() (*types.Transaction,
 // Solidity: function renounceOwnership() returns()
 func (_PromptVault *PromptVaultTransactorSession) RenounceOwnership() (*types.Transaction, error) {
 	return _PromptVault.Contract.RenounceOwnership(&_PromptVault.TransactOpts)
+}
+
+// SeedPrizePool is a paid mutator transaction binding the contract method 0x1f9d7e2e.
+//
+// Solidity: function seedPrizePool() payable returns()
+func (_PromptVault *PromptVaultTransactor) SeedPrizePool(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _PromptVault.contract.Transact(opts, "seedPrizePool")
+}
+
+// SeedPrizePool is a paid mutator transaction binding the contract method 0x1f9d7e2e.
+//
+// Solidity: function seedPrizePool() payable returns()
+func (_PromptVault *PromptVaultSession) SeedPrizePool() (*types.Transaction, error) {
+	return _PromptVault.Contract.SeedPrizePool(&_PromptVault.TransactOpts)
+}
+
+// SeedPrizePool is a paid mutator transaction binding the contract method 0x1f9d7e2e.
+//
+// Solidity: function seedPrizePool() payable returns()
+func (_PromptVault *PromptVaultTransactorSession) SeedPrizePool() (*types.Transaction, error) {
+	return _PromptVault.Contract.SeedPrizePool(&_PromptVault.TransactOpts)
 }
 
 // SetSigner is a paid mutator transaction binding the contract method 0x6c19e783.
@@ -532,6 +701,151 @@ func (_PromptVault *PromptVaultSession) Receive() (*types.Transaction, error) {
 // Solidity: receive() payable returns()
 func (_PromptVault *PromptVaultTransactorSession) Receive() (*types.Transaction, error) {
 	return _PromptVault.Contract.Receive(&_PromptVault.TransactOpts)
+}
+
+// PromptVaultFundsReceivedIterator is returned from FilterFundsReceived and is used to iterate over the raw logs and unpacked data for FundsReceived events raised by the PromptVault contract.
+type PromptVaultFundsReceivedIterator struct {
+	Event *PromptVaultFundsReceived // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *PromptVaultFundsReceivedIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(PromptVaultFundsReceived)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(PromptVaultFundsReceived)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *PromptVaultFundsReceivedIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *PromptVaultFundsReceivedIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// PromptVaultFundsReceived represents a FundsReceived event raised by the PromptVault contract.
+type PromptVaultFundsReceived struct {
+	Sender common.Address
+	Amount *big.Int
+	Raw    types.Log // Blockchain specific contextual infos
+}
+
+// FilterFundsReceived is a free log retrieval operation binding the contract event 0x8e47b87b0ef542cdfa1659c551d88bad38aa7f452d2bbb349ab7530dfec8be8f.
+//
+// Solidity: event FundsReceived(address indexed sender, uint256 amount)
+func (_PromptVault *PromptVaultFilterer) FilterFundsReceived(opts *bind.FilterOpts, sender []common.Address) (*PromptVaultFundsReceivedIterator, error) {
+
+	var senderRule []interface{}
+	for _, senderItem := range sender {
+		senderRule = append(senderRule, senderItem)
+	}
+
+	logs, sub, err := _PromptVault.contract.FilterLogs(opts, "FundsReceived", senderRule)
+	if err != nil {
+		return nil, err
+	}
+	return &PromptVaultFundsReceivedIterator{contract: _PromptVault.contract, event: "FundsReceived", logs: logs, sub: sub}, nil
+}
+
+// WatchFundsReceived is a free log subscription operation binding the contract event 0x8e47b87b0ef542cdfa1659c551d88bad38aa7f452d2bbb349ab7530dfec8be8f.
+//
+// Solidity: event FundsReceived(address indexed sender, uint256 amount)
+func (_PromptVault *PromptVaultFilterer) WatchFundsReceived(opts *bind.WatchOpts, sink chan<- *PromptVaultFundsReceived, sender []common.Address) (event.Subscription, error) {
+
+	var senderRule []interface{}
+	for _, senderItem := range sender {
+		senderRule = append(senderRule, senderItem)
+	}
+
+	logs, sub, err := _PromptVault.contract.WatchLogs(opts, "FundsReceived", senderRule)
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(PromptVaultFundsReceived)
+				if err := _PromptVault.contract.UnpackLog(event, "FundsReceived", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// ParseFundsReceived is a log parse operation binding the contract event 0x8e47b87b0ef542cdfa1659c551d88bad38aa7f452d2bbb349ab7530dfec8be8f.
+//
+// Solidity: event FundsReceived(address indexed sender, uint256 amount)
+func (_PromptVault *PromptVaultFilterer) ParseFundsReceived(log types.Log) (*PromptVaultFundsReceived, error) {
+	event := new(PromptVaultFundsReceived)
+	if err := _PromptVault.contract.UnpackLog(event, "FundsReceived", log); err != nil {
+		return nil, err
+	}
+	event.Raw = log
+	return event, nil
 }
 
 // PromptVaultOwnershipTransferredIterator is returned from FilterOwnershipTransferred and is used to iterate over the raw logs and unpacked data for OwnershipTransferred events raised by the PromptVault contract.
@@ -832,6 +1146,151 @@ func (_PromptVault *PromptVaultFilterer) ParsePrizeClaimed(log types.Log) (*Prom
 	return event, nil
 }
 
+// PromptVaultRevenueWithdrawnIterator is returned from FilterRevenueWithdrawn and is used to iterate over the raw logs and unpacked data for RevenueWithdrawn events raised by the PromptVault contract.
+type PromptVaultRevenueWithdrawnIterator struct {
+	Event *PromptVaultRevenueWithdrawn // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *PromptVaultRevenueWithdrawnIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(PromptVaultRevenueWithdrawn)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(PromptVaultRevenueWithdrawn)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *PromptVaultRevenueWithdrawnIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *PromptVaultRevenueWithdrawnIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// PromptVaultRevenueWithdrawn represents a RevenueWithdrawn event raised by the PromptVault contract.
+type PromptVaultRevenueWithdrawn struct {
+	To     common.Address
+	Amount *big.Int
+	Raw    types.Log // Blockchain specific contextual infos
+}
+
+// FilterRevenueWithdrawn is a free log retrieval operation binding the contract event 0x86a5cc8fe9af9ae68fb50f62885307a7755a30cbd290131644377f0bd94a7181.
+//
+// Solidity: event RevenueWithdrawn(address indexed to, uint256 amount)
+func (_PromptVault *PromptVaultFilterer) FilterRevenueWithdrawn(opts *bind.FilterOpts, to []common.Address) (*PromptVaultRevenueWithdrawnIterator, error) {
+
+	var toRule []interface{}
+	for _, toItem := range to {
+		toRule = append(toRule, toItem)
+	}
+
+	logs, sub, err := _PromptVault.contract.FilterLogs(opts, "RevenueWithdrawn", toRule)
+	if err != nil {
+		return nil, err
+	}
+	return &PromptVaultRevenueWithdrawnIterator{contract: _PromptVault.contract, event: "RevenueWithdrawn", logs: logs, sub: sub}, nil
+}
+
+// WatchRevenueWithdrawn is a free log subscription operation binding the contract event 0x86a5cc8fe9af9ae68fb50f62885307a7755a30cbd290131644377f0bd94a7181.
+//
+// Solidity: event RevenueWithdrawn(address indexed to, uint256 amount)
+func (_PromptVault *PromptVaultFilterer) WatchRevenueWithdrawn(opts *bind.WatchOpts, sink chan<- *PromptVaultRevenueWithdrawn, to []common.Address) (event.Subscription, error) {
+
+	var toRule []interface{}
+	for _, toItem := range to {
+		toRule = append(toRule, toItem)
+	}
+
+	logs, sub, err := _PromptVault.contract.WatchLogs(opts, "RevenueWithdrawn", toRule)
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(PromptVaultRevenueWithdrawn)
+				if err := _PromptVault.contract.UnpackLog(event, "RevenueWithdrawn", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// ParseRevenueWithdrawn is a log parse operation binding the contract event 0x86a5cc8fe9af9ae68fb50f62885307a7755a30cbd290131644377f0bd94a7181.
+//
+// Solidity: event RevenueWithdrawn(address indexed to, uint256 amount)
+func (_PromptVault *PromptVaultFilterer) ParseRevenueWithdrawn(log types.Log) (*PromptVaultRevenueWithdrawn, error) {
+	event := new(PromptVaultRevenueWithdrawn)
+	if err := _PromptVault.contract.UnpackLog(event, "RevenueWithdrawn", log); err != nil {
+		return nil, err
+	}
+	event.Raw = log
+	return event, nil
+}
+
 // PromptVaultSignerUpdatedIterator is returned from FilterSignerUpdated and is used to iterate over the raw logs and unpacked data for SignerUpdated events raised by the PromptVault contract.
 type PromptVaultSignerUpdatedIterator struct {
 	Event *PromptVaultSignerUpdated // Event containing the contract specifics and raw log
@@ -901,38 +1360,47 @@ func (it *PromptVaultSignerUpdatedIterator) Close() error {
 
 // PromptVaultSignerUpdated represents a SignerUpdated event raised by the PromptVault contract.
 type PromptVaultSignerUpdated struct {
+	OldSigner common.Address
 	NewSigner common.Address
 	Raw       types.Log // Blockchain specific contextual infos
 }
 
-// FilterSignerUpdated is a free log retrieval operation binding the contract event 0x5553331329228fbd4123164423717a4a7539f6dfa1c3279a923b98fd681a6c73.
+// FilterSignerUpdated is a free log retrieval operation binding the contract event 0x2d025324f0a785e8c12d0a0d91a9caa49df4ef20ff87e0df7213a1d4f3157beb.
 //
-// Solidity: event SignerUpdated(address indexed newSigner)
-func (_PromptVault *PromptVaultFilterer) FilterSignerUpdated(opts *bind.FilterOpts, newSigner []common.Address) (*PromptVaultSignerUpdatedIterator, error) {
+// Solidity: event SignerUpdated(address indexed oldSigner, address indexed newSigner)
+func (_PromptVault *PromptVaultFilterer) FilterSignerUpdated(opts *bind.FilterOpts, oldSigner []common.Address, newSigner []common.Address) (*PromptVaultSignerUpdatedIterator, error) {
 
+	var oldSignerRule []interface{}
+	for _, oldSignerItem := range oldSigner {
+		oldSignerRule = append(oldSignerRule, oldSignerItem)
+	}
 	var newSignerRule []interface{}
 	for _, newSignerItem := range newSigner {
 		newSignerRule = append(newSignerRule, newSignerItem)
 	}
 
-	logs, sub, err := _PromptVault.contract.FilterLogs(opts, "SignerUpdated", newSignerRule)
+	logs, sub, err := _PromptVault.contract.FilterLogs(opts, "SignerUpdated", oldSignerRule, newSignerRule)
 	if err != nil {
 		return nil, err
 	}
 	return &PromptVaultSignerUpdatedIterator{contract: _PromptVault.contract, event: "SignerUpdated", logs: logs, sub: sub}, nil
 }
 
-// WatchSignerUpdated is a free log subscription operation binding the contract event 0x5553331329228fbd4123164423717a4a7539f6dfa1c3279a923b98fd681a6c73.
+// WatchSignerUpdated is a free log subscription operation binding the contract event 0x2d025324f0a785e8c12d0a0d91a9caa49df4ef20ff87e0df7213a1d4f3157beb.
 //
-// Solidity: event SignerUpdated(address indexed newSigner)
-func (_PromptVault *PromptVaultFilterer) WatchSignerUpdated(opts *bind.WatchOpts, sink chan<- *PromptVaultSignerUpdated, newSigner []common.Address) (event.Subscription, error) {
+// Solidity: event SignerUpdated(address indexed oldSigner, address indexed newSigner)
+func (_PromptVault *PromptVaultFilterer) WatchSignerUpdated(opts *bind.WatchOpts, sink chan<- *PromptVaultSignerUpdated, oldSigner []common.Address, newSigner []common.Address) (event.Subscription, error) {
 
+	var oldSignerRule []interface{}
+	for _, oldSignerItem := range oldSigner {
+		oldSignerRule = append(oldSignerRule, oldSignerItem)
+	}
 	var newSignerRule []interface{}
 	for _, newSignerItem := range newSigner {
 		newSignerRule = append(newSignerRule, newSignerItem)
 	}
 
-	logs, sub, err := _PromptVault.contract.WatchLogs(opts, "SignerUpdated", newSignerRule)
+	logs, sub, err := _PromptVault.contract.WatchLogs(opts, "SignerUpdated", oldSignerRule, newSignerRule)
 	if err != nil {
 		return nil, err
 	}
@@ -964,9 +1432,9 @@ func (_PromptVault *PromptVaultFilterer) WatchSignerUpdated(opts *bind.WatchOpts
 	}), nil
 }
 
-// ParseSignerUpdated is a log parse operation binding the contract event 0x5553331329228fbd4123164423717a4a7539f6dfa1c3279a923b98fd681a6c73.
+// ParseSignerUpdated is a log parse operation binding the contract event 0x2d025324f0a785e8c12d0a0d91a9caa49df4ef20ff87e0df7213a1d4f3157beb.
 //
-// Solidity: event SignerUpdated(address indexed newSigner)
+// Solidity: event SignerUpdated(address indexed oldSigner, address indexed newSigner)
 func (_PromptVault *PromptVaultFilterer) ParseSignerUpdated(log types.Log) (*PromptVaultSignerUpdated, error) {
 	event := new(PromptVaultSignerUpdated)
 	if err := _PromptVault.contract.UnpackLog(event, "SignerUpdated", log); err != nil {
@@ -1045,13 +1513,14 @@ func (it *PromptVaultTicketPriceUpdatedIterator) Close() error {
 
 // PromptVaultTicketPriceUpdated represents a TicketPriceUpdated event raised by the PromptVault contract.
 type PromptVaultTicketPriceUpdated struct {
+	OldPrice *big.Int
 	NewPrice *big.Int
 	Raw      types.Log // Blockchain specific contextual infos
 }
 
-// FilterTicketPriceUpdated is a free log retrieval operation binding the contract event 0x7429795511c1ec5ebcc0e6839095ec18f13fce25cdc7c90da9d8a016584a1dbe.
+// FilterTicketPriceUpdated is a free log retrieval operation binding the contract event 0xd4c5e06b1ae097ba02372652a7adaa6e4a8e00be527497a3ad0ebc3f761ef3fb.
 //
-// Solidity: event TicketPriceUpdated(uint256 newPrice)
+// Solidity: event TicketPriceUpdated(uint256 oldPrice, uint256 newPrice)
 func (_PromptVault *PromptVaultFilterer) FilterTicketPriceUpdated(opts *bind.FilterOpts) (*PromptVaultTicketPriceUpdatedIterator, error) {
 
 	logs, sub, err := _PromptVault.contract.FilterLogs(opts, "TicketPriceUpdated")
@@ -1061,9 +1530,9 @@ func (_PromptVault *PromptVaultFilterer) FilterTicketPriceUpdated(opts *bind.Fil
 	return &PromptVaultTicketPriceUpdatedIterator{contract: _PromptVault.contract, event: "TicketPriceUpdated", logs: logs, sub: sub}, nil
 }
 
-// WatchTicketPriceUpdated is a free log subscription operation binding the contract event 0x7429795511c1ec5ebcc0e6839095ec18f13fce25cdc7c90da9d8a016584a1dbe.
+// WatchTicketPriceUpdated is a free log subscription operation binding the contract event 0xd4c5e06b1ae097ba02372652a7adaa6e4a8e00be527497a3ad0ebc3f761ef3fb.
 //
-// Solidity: event TicketPriceUpdated(uint256 newPrice)
+// Solidity: event TicketPriceUpdated(uint256 oldPrice, uint256 newPrice)
 func (_PromptVault *PromptVaultFilterer) WatchTicketPriceUpdated(opts *bind.WatchOpts, sink chan<- *PromptVaultTicketPriceUpdated) (event.Subscription, error) {
 
 	logs, sub, err := _PromptVault.contract.WatchLogs(opts, "TicketPriceUpdated")
@@ -1098,9 +1567,9 @@ func (_PromptVault *PromptVaultFilterer) WatchTicketPriceUpdated(opts *bind.Watc
 	}), nil
 }
 
-// ParseTicketPriceUpdated is a log parse operation binding the contract event 0x7429795511c1ec5ebcc0e6839095ec18f13fce25cdc7c90da9d8a016584a1dbe.
+// ParseTicketPriceUpdated is a log parse operation binding the contract event 0xd4c5e06b1ae097ba02372652a7adaa6e4a8e00be527497a3ad0ebc3f761ef3fb.
 //
-// Solidity: event TicketPriceUpdated(uint256 newPrice)
+// Solidity: event TicketPriceUpdated(uint256 oldPrice, uint256 newPrice)
 func (_PromptVault *PromptVaultFilterer) ParseTicketPriceUpdated(log types.Log) (*PromptVaultTicketPriceUpdated, error) {
 	event := new(PromptVaultTicketPriceUpdated)
 	if err := _PromptVault.contract.UnpackLog(event, "TicketPriceUpdated", log); err != nil {

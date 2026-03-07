@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = "0xD9930219566eED251e6757FEAfA35D768d20c9c5";
+export const CONTRACT_ADDRESS = "0x117D20BdF529891421546dc5F8651561A0F59aE0";
 
 export const PROMPT_VAULT_ABI = [
   {
@@ -14,6 +14,11 @@ export const PROMPT_VAULT_ABI = [
         internalType: "bytes",
         name: "signature",
         type: "bytes",
+      },
+      {
+        internalType: "uint256",
+        name: "signedAmount",
+        type: "uint256",
       },
     ],
     name: "claimPrize",

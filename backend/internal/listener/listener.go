@@ -5,8 +5,8 @@ import (
 	"log"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/prompt-heist/backend/internal/bindings"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/prompt-heist/backend/internal/bindings"
 )
 
 type EventListener struct {
@@ -53,7 +53,7 @@ func (l *EventListener) Start(ctx context.Context) {
 		log.Printf("Failed to watch PrizeClaimed: %v", err)
 	}
 
-	signerSub, err := l.vault.WatchSignerUpdated(nil, signerUpdatedCh, nil)
+	signerSub, err := l.vault.WatchSignerUpdated(nil, signerUpdatedCh, nil, nil)
 	if err != nil {
 		log.Printf("Failed to watch SignerUpdated: %v", err)
 	}
@@ -67,10 +67,18 @@ func (l *EventListener) Start(ctx context.Context) {
 		select {
 		case <-ctx.Done():
 			log.Println("Stopping event listener...")
-			if ticketSub != nil { ticketSub.Unsubscribe() }
-			if prizeSub != nil { prizeSub.Unsubscribe() }
-			if signerSub != nil { signerSub.Unsubscribe() }
-			if priceSub != nil { priceSub.Unsubscribe() }
+			if ticketSub != nil {
+				ticketSub.Unsubscribe()
+			}
+			if prizeSub != nil {
+				prizeSub.Unsubscribe()
+			}
+			if signerSub != nil {
+				signerSub.Unsubscribe()
+			}
+			if priceSub != nil {
+				priceSub.Unsubscribe()
+			}
 			return
 
 		case err := <-ticketSub.Err():
